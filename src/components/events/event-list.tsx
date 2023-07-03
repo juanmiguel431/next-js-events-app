@@ -1,6 +1,7 @@
 import React from "react";
 import { Event } from '@/models';
 import EventItem from "@/components/events/event-item";
+import classes from "./event-list.module.css";
 
 interface EventListProps {
   items: Array<Event>;
@@ -9,11 +10,11 @@ interface EventListProps {
 const EventList: React.FC<EventListProps> = (props) => {
   return (
     <div className="event-list">
-      <ul>
+      <div className={classes.list}>
         {props.items.map(e => {
-          return <li key={e.id}><EventItem event={e} /></li>;
+          return <div key={e.id}><EventItem event={e} /></div>;
         })}
-      </ul>
+      </div>
     </div>
   );
 }
