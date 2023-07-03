@@ -3,6 +3,7 @@ import { Event } from '@/models';
 import Link from "next/link";
 import Image from "next/image";
 import classes from "./event-item.module.css";
+import Button from "@/components/ui/button";
 
 interface EventListProps {
   event: Event;
@@ -31,12 +32,12 @@ const EventItem: React.FC<EventListProps> = ({ event }) => {
           </div>
         </div>
         <div className={classes.actions}>
-          <Link href={{
+          <Button href={{
             pathname: '/events/[id]',
             query: {
               id: event.id
             }
-          }}>Explore event</Link>
+          }}>Explore event</Button>
         </div>
       </div>
     </div>
