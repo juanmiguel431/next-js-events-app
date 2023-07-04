@@ -1,13 +1,13 @@
 import React from "react";
 import EventList from "@/components/events/event-list";
-import { getFeaturedEvents } from "@/models/dummy-data";
+import { getAllEvents } from "@/models/dummy-data";
 
 const EventsPage: React.FC = () => {
-  const featuredEvents = getFeaturedEvents();
+  const allEvents = getAllEvents();
 
   return (
     <div className="events-page">
-      <EventList items={featuredEvents} />
+      <EventList items={allEvents} />
     </div>
   );
 }
