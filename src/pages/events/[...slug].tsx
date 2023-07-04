@@ -4,6 +4,7 @@ import { getFilteredEvents } from "@/models/dummy-data";
 import EventList from "@/components/events/event-list";
 import ResultsTitle from "@/components/results-title/results-title";
 import Button from "@/components/ui/button";
+import ErrorAlert from "@/components/ui/error-alert/error-alert";
 
 const FilteredEventsPage: React.FC = () => {
   const router = useRouter();
@@ -19,7 +20,9 @@ const FilteredEventsPage: React.FC = () => {
 
   if (isNaN(year) || isNaN(month) || year < 1900 || month < 1 || month > 12) {
     return <>
-      <p className="center">Invalid filters. Please, adjust the values.</p>
+      <ErrorAlert>
+        <p className="center">Invalid filters. Please, adjust the values.</p>
+      </ErrorAlert>
       <div className="center">
         <Button href='/events'>Show all events</Button>
       </div>
@@ -30,7 +33,7 @@ const FilteredEventsPage: React.FC = () => {
 
   if (events.length === 0) {
     return <>
-      <p className="center">No events found.</p>
+      <p className="center">No events found for the chosen filters.</p>
       <div className="center">
         <Button href='/events'>Show all events</Button>
       </div>
