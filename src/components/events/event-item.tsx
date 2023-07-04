@@ -24,7 +24,7 @@ const EventItem: React.FC<EventListProps> = ({ event }) => {
     <div className={`event-item ${classes.item}`}>
       <Image src={event.image} alt={event.title} width={200} height={200}/>
       <div className={classes.content}>
-        <div className={classes.summary}>
+        <div>
           <h2>{event.title}</h2>
           <div className={classes.date}>
             <DateIcon/>
