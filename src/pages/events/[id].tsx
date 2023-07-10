@@ -1,18 +1,16 @@
 import React from "react";
-import { useRouter } from "next/router";
-import { getEventById } from "@/models/dummy-data";
 import EventSummary from "@/components/events/details/event-summary";
 import EventLogistics from "@/components/events/details/event-logistics";
 import EventContent from "@/components/events/details/event-content";
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { getAllEvents, getEventById } from '@/helpers/api-utils';
+import { Event } from '@/models';
 
-const EventDetailPage: React.FC = () => {
+interface EventDetailPageProps {
+  event: Event;
+}
 
-  const router = useRouter();
-
-  const eventId = router.query.id as string;
-
-  const event = getEventById(eventId);
-
+const EventDetailPage: NextPage<EventDetailPageProps> = ({ event}) => {
   if (!event) {
     return <div>No event found</div>;
   }
@@ -29,3 +27,43 @@ const EventDetailPage: React.FC = () => {
 }
 
 export default EventDetailPage;
+
+export const getStaticProps: GetStaticProps<EventDetailPageProps> = async (context) => {
+  const eventId = context.params?.id as string;
+
+  if (eventId === undefined) {
+    return {
+      notFound: true
+    };
+  }
+
+  const event = await getEventById(eventId);
+
+  if (event === undefined) {
+    return {
+      notFound: true
+    };
+  }
+
+  return {
+    props: {
+      event: event
+    }
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const events = await getAllEvents();
+  const paths = events.map(e => {
+    return {
+      params: {
+        id: e.id
+      }
+    };
+  });
+
+  return {
+    paths: paths,
+    fallback: false,
+  }
+}
