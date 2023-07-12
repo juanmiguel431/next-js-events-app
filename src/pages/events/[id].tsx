@@ -3,8 +3,9 @@ import EventSummary from "@/components/events/details/event-summary";
 import EventLogistics from "@/components/events/details/event-logistics";
 import EventContent from "@/components/events/details/event-content";
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { getAllEvents, getEventById } from '@/helpers/api-utils';
+import { getEventById, getFeaturedEvents } from '@/helpers/api-utils';
 import { Event } from '@/models';
+import { ParsedUrlQuery } from 'querystring';
 
 interface EventDetailPageProps {
   event: Event;
@@ -28,8 +29,8 @@ const EventDetailPage: NextPage<EventDetailPageProps> = ({ event}) => {
 
 export default EventDetailPage;
 
-export const getStaticProps: GetStaticProps<EventDetailPageProps> = async (context) => {
-  const eventId = context.params?.id as string;
+export const getStaticProps: GetStaticProps<EventDetailPageProps, IParams> = async (context) => {
+  const eventId = context.params?.id;
 
   if (eventId === undefined) {
     return {
@@ -48,12 +49,17 @@ export const getStaticProps: GetStaticProps<EventDetailPageProps> = async (conte
   return {
     props: {
       event: event
-    }
+    },
+    revalidate: 30
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const events = await getAllEvents();
+interface IParams extends ParsedUrlQuery {
+  id: string;
+}
+
+export const getStaticPaths: GetStaticPaths<IParams> = async () => {
+  const events = await getFeaturedEvents();
   const paths = events.map(e => {
     return {
       params: {
@@ -64,6 +70,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: paths,
-    fallback: false,
+    fallback: 'blocking',
   }
 }

@@ -24,7 +24,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async (context) => {
 
   return {
     props: {
-      featuredEvents: events
-    }
+      featuredEvents: events,
+    },
+    revalidate: 1800 // 30 mins
   };
 }
