@@ -10,7 +10,7 @@ const EventsPage: React.FC = () => {
 
   const onSearch = (year: number, month: number) => {
     router.push({
-      pathname: '/events/[...slug]',
+      pathname: '/events/browse/[...slug]',
       query: {
         slug: [year, month]
       }
