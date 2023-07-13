@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import EventList from '@/components/events/event-list';
 import ResultsTitle from '@/components/results-title/results-title';
@@ -10,6 +10,7 @@ import { Event } from '@/models';
 // import { getFilteredEvents } from '@/helpers/api-utils';
 import useSWR from 'swr';
 import ErrorAlert from '@/components/ui/error-alert/error-alert';
+import Head from 'next/head';
 
 interface FilteredEventsPageProps {
   events: Event[];
@@ -37,21 +38,37 @@ const FilteredEventsPage: NextPage<FilteredEventsPageProps> = () => {
   const params = router.query.slug;
 
   if (!params) {
-    return <p className="center">Loading...</p>
+    return (
+      <Fragment>
+        <Head>
+          <title>Filtered Events</title>
+          <meta title="description" content="A list of filtered events"/>
+        </Head>
+        <p className="center">Loading...</p>
+      </Fragment>
+    )
   }
 
   const year = +params[0];
   const month = +params[1];
 
+  const headData = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta title="description" content={`All events for ${month}/${year}`}/>
+    </Head>
+  );
+
   if (isNaN(year) || isNaN(month) || year < 1900 || month < 1 || month > 12 || error) {
-    return <>
+    return <Fragment>
+      {headData}
       <ErrorAlert>
         <p className="center">Invalid filters. Please, adjust the values.</p>
       </ErrorAlert>
       <div className="center">
         <Button href='/events'>Show all events</Button>
       </div>
-    </>
+    </Fragment>
   }
 
   const events = loadedEvents.filter(event => {
@@ -60,18 +77,20 @@ const FilteredEventsPage: NextPage<FilteredEventsPageProps> = () => {
   });
 
   if (events.length === 0) {
-    return <>
+    return <Fragment>
+      {headData}
       <p className="center">No events found for the chosen filters.</p>
       <div className="center">
         <Button href="/events">Show all events</Button>
       </div>
-    </>;
+    </Fragment>;
   }
 
   const date = new Date(year, month - 1);
 
   return (
     <div className="filtered-events-page">
+      {headData}
       <ResultsTitle date={date}/>
       <EventList items={events}/>
     </div>

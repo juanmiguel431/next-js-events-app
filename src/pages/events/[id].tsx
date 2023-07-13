@@ -6,6 +6,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { getEventById, getFeaturedEvents } from '@/helpers/api-utils';
 import { Event } from '@/models';
 import { ParsedUrlQuery } from 'querystring';
+import Head from 'next/head';
 
 interface EventDetailPageProps {
   event: Event;
@@ -18,6 +19,10 @@ const EventDetailPage: NextPage<EventDetailPageProps> = ({ event}) => {
 
   return (
     <div className="event-detail-page">
+      <Head>
+        <title>{event.title}</title>
+        <meta title="description" content={event.description}/>
+      </Head>
       <EventSummary title={event.title}/>
       <EventLogistics date={event.date} address={event.location} image={event.image} imageAlt={event.title}/>
       <EventContent>
