@@ -7,6 +7,7 @@ import { getEventById, getFeaturedEvents } from '@/helpers/api-utils';
 import { Event } from '@/models';
 import { ParsedUrlQuery } from 'querystring';
 import Head from 'next/head';
+import Comments from '@/components/input/comments';
 
 interface EventDetailPageProps {
   event: Event;
@@ -28,6 +29,7 @@ const EventDetailPage: NextPage<EventDetailPageProps> = ({ event}) => {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
+      <Comments eventId={event.id} />
     </div>
   );
 }

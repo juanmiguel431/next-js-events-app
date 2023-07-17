@@ -3,6 +3,7 @@ import React from "react";
 import { GetStaticProps, NextPage } from 'next';
 import { Event } from '@/models'
 import { getFeaturedEvents } from '@/helpers/api-utils';
+import NewsletterRegistration from '@/components/input/newsletter-registration';
 
 interface HomeProps {
   featuredEvents: Event[];
@@ -11,6 +12,7 @@ interface HomeProps {
 const Home: NextPage<HomeProps> = ({ featuredEvents }) => {
   return (
     <div className="home-page">
+      <NewsletterRegistration />
       <EventList items={featuredEvents} />
     </div>
   );
