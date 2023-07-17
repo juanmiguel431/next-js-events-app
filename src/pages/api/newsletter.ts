@@ -4,7 +4,7 @@ type Data = {
   message: string
 }
 
-interface RequestBody {
+export interface RequestBody {
   email: string;
 }
 
@@ -13,7 +13,7 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method === 'POST') {
-    const body = JSON.parse(req.body) as RequestBody;
+    const body = req.body as RequestBody;
 
     if (!body.email || !body.email.includes('@')) {
       res.status(422).json({ message: 'Invalid email address. '});

@@ -1,5 +1,6 @@
 import classes from './newsletter-registration.module.css';
 import { FormEventHandler, useRef } from 'react';
+import { RequestBody } from '@/pages/api/newsletter';
 
 function NewsletterRegistration() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -7,16 +8,21 @@ function NewsletterRegistration() {
   const registrationHandler:  FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
-    const email = inputRef.current?.value;
+    const email = inputRef.current?.value || '';
 
     // fetch user input (state or refs)
     // optional: validate input
     // send valid data to API
+
+    const requestBody: RequestBody = {
+      email: email
+    }
+
     const response = await fetch('api/newsletter', {
       method: 'POST',
-      body: JSON.stringify({ email: email }),
+      body: JSON.stringify(requestBody),
       headers: {
-        'Content-Type': 'application-json'
+        'Content-Type': 'application/json'
       }
     });
 
