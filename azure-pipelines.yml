@@ -20,10 +20,17 @@ steps:
       npm run build
     displayName: 'npm install and build'
 
-  - task: AzureWebApp@1
+  - task: CopyFiles@2
     inputs:
-      azureSubscription: 'Pay-As-You-Go Dev/Test'
-      appType: 'webApp'
-      appName: 'next-js-app'
-      package: '$(System.DefaultWorkingDirectory)/.next'  # Ruta donde se encuentra la carpeta "build" generada por Next.js
-    displayName: 'Azure Web App Deploy'
+      sourceFolder: '$(Build.SourcesDirectory)'
+      contents: |
+        .next/*
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+    displayName: 'Copy project files'
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      artifactName: next-js-app
+      targetPath: '$(Build.ArtifactStagingDirectory)'
+      publishLocation: 'pipeline'
+    displayName: 'Publish npm artifact'
