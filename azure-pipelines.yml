@@ -4,31 +4,26 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- master
+  - master
 
-jobs:
-- job: Build
-  displayName: 'Install and Build'
-  pool:
-    vmImage: ubuntu-latest
-  steps:
+pool:
+  vmImage: ubuntu-latest
+
+steps:
   - task: NodeTool@0
-    displayName: 'Install Node.js'
     inputs:
       versionSpec: '18.x'
+    displayName: 'Install Node.js'
+
   - script: |
       npm install
       npm run build
     displayName: 'npm install and build'
-- job: Deploy
-  displayName: 'Deploy to Azure Web App'
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
+
   - task: AzureWebApp@1
-    displayName: 'Azure Web App Deploy'
     inputs:
-      azureSubscription: '7ebe4a23-c96e-48a8-a34c-c3c620d8fda9'
+      azureSubscription: 'Pay-As-You-Go Dev/Test'
       appType: 'webApp'
       appName: 'next-js-app'
       package: '$(System.DefaultWorkingDirectory)/.next'  # Ruta donde se encuentra la carpeta "build" generada por Next.js
+    displayName: 'Azure Web App Deploy'
