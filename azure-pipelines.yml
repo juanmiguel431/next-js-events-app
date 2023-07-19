@@ -28,7 +28,7 @@ jobs:
   - task: AzureWebApp@1
     displayName: 'Azure Web App Deploy'
     inputs:
-      azureSubscription: 'Pay-As-You-Go Dev/Test'
+      azureSubscription: '7ebe4a23-c96e-48a8-a34c-c3c620d8fda9'
       appType: 'webApp'
       appName: 'next-js-app'
       package: '$(System.DefaultWorkingDirectory)/.next'  # Ruta donde se encuentra la carpeta "build" generada por Next.js
