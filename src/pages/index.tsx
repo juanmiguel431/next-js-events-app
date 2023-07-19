@@ -1,5 +1,5 @@
-import EventList from "@/components/events/event-list";
-import React from "react";
+import EventList from '@/components/events/event-list';
+import React from 'react';
 import { GetStaticProps, NextPage } from 'next';
 import { Event } from '@/models'
 import { getFeaturedEvents } from '@/helpers/api-utils';
@@ -12,8 +12,9 @@ interface HomeProps {
 const Home: NextPage<HomeProps> = ({ featuredEvents }) => {
   return (
     <div className="home-page">
-      <NewsletterRegistration />
-      <EventList items={featuredEvents} />
+      <h1 style={{ textAlign: 'center' }}>Juan Miguel</h1>
+      <NewsletterRegistration/>
+      <EventList items={featuredEvents}/>
     </div>
   );
 }
