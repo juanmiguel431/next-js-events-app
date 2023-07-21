@@ -12,7 +12,7 @@ interface HomeProps {
 const Home: NextPage<HomeProps> = ({ featuredEvents }) => {
   return (
     <div className="home-page">
-      <h1 style={{ textAlign: 'center' }}>Juan Miguel</h1>
+      <h1 style={{ textAlign: 'center' }}>Juan Miguel Paulino</h1>
       <NewsletterRegistration/>
       <EventList items={featuredEvents}/>
     </div>
