@@ -20,21 +20,6 @@ steps:
       npm run build
     displayName: 'npm install and build'
 
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: '$(Build.SourcesDirectory)'
-      contents: |
-        .next/*
-      targetFolder: '$(Build.ArtifactStagingDirectory)'
-    displayName: 'Copy project files'
-
-  - task: PublishPipelineArtifact@1
-    inputs:
-      artifactName: next-js-app
-      targetPath: '$(Build.ArtifactStagingDirectory)'
-      publishLocation: 'pipeline'
-    displayName: 'Publish npm artifact'
-
   - task: AzureRmWebAppDeployment@4
     inputs:
       ConnectionType: 'AzureRM'
@@ -44,4 +29,4 @@ steps:
       deployToSlotOrASE: true
       ResourceGroupName: 'next-js-app'
       SlotName: 'production'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      packageForLinux: '$(Build.SourcesDirectory)/.next'
