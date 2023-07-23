@@ -20,26 +20,16 @@ steps:
       npm run build
     displayName: 'npm install and build'
 
-  - task: CopyFiles@2
+  - task: ArchiveFiles@2
     inputs:
-      contents: '.next/**'
-      targetFolder: '$(Build.ArtifactStagingDirectory)'
-    displayName: 'Copy project files'
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)/.next'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      replaceExistingArchive: true
 
-  - task: PublishPipelineArtifact@1
+  - task: PublishBuildArtifacts@1
     inputs:
-      artifactName: next-js-app
-      targetPath: '$(Build.ArtifactStagingDirectory)'
-      publishLocation: 'pipeline'
-    displayName: 'Publish npm artifact'
-
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Pay-As-You-Go Dev/Test(7ebe4a23-c96e-48a8-a34c-c3c620d8fda9)'
-      appType: 'webAppLinux'
-      WebAppName: 'next-js-app'
-      deployToSlotOrASE: true
-      ResourceGroupName: 'next-js-app'
-      SlotName: 'production'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
