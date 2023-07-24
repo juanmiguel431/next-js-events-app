@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { GetResponse, InvalidRequestResponse, PostResponse, RequestBody, Comment } from '@/models/comment';
 
@@ -16,7 +17,7 @@ export default function handler(
     }
 
     const newComment: Comment = {
-      id: new Date().toISOString(),
+      id: uuidv4(),
       email: email,
       name: name,
       text: text
