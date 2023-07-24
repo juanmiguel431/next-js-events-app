@@ -14,7 +14,7 @@ const CommentList: React.FC<CommentListProps> = ({ comments }) => {
         <li key={c.id}>
           <p>{c.text}</p>
           <div>
-            By <address>{c.email}</address>
+            By <address>{c.name}</address>
           </div>
         </li>
       ))}
