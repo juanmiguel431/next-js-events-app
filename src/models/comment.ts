@@ -1,3 +1,4 @@
+import { ObjectId, Document } from "mongodb";
 
 export interface InvalidRequestResponse {
   message: string;
@@ -18,9 +19,10 @@ export interface RequestBody {
   text?: string;
 }
 
-export interface Comment {
-  id: string;
+export interface Comment extends Document {
+  _id?: ObjectId;
   email: string;
   name: string;
   text: string;
+  eventId: string;
 }

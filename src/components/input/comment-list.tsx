@@ -10,8 +10,8 @@ const CommentList: React.FC<CommentListProps> = ({ comments }) => {
 
   return (
     <ul className={classes.comments}>
-      {comments.map(c => (
-        <li key={c.id}>
+      {comments.map((c, index) => (
+        <li key={index}>
           <p>{c.text}</p>
           <div>
             By <address>{c.name}</address>

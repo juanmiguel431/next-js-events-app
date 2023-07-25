@@ -1,8 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { GetResponse, InvalidRequestResponse, PostResponse, RequestBody, Comment } from '@/models/comment';
+import MongoDbClient from '@/apis/mongodb';
+import { ObjectId } from 'mongodb';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<InvalidRequestResponse | PostResponse | GetResponse>
 ) {
@@ -17,20 +19,35 @@ export default function handler(
     }
 
     const newComment: Comment = {
-      id: uuidv4(),
       email: email,
       name: name,
-      text: text
+      text: text,
+      eventId: eventId
+    }
+
+    const client = new MongoDbClient('comments');
+    try {
+      await client.connect();
+      const result = await client.insert(newComment);
+      newComment._id = result.insertedId;
+    } finally {
+      await client.close();
     }
 
     res.status(201).json({ message: 'Added Comment.', comment: newComment });
   } else if (req.method === 'GET' ) {
-    const dummyCommentList: Comment[] = [
-      { id: 'c1', name: 'Juan', text: 'A first comment', email: 'juan@gmail.com' },
-      { id: 'c2', name: 'Manuel', text: 'A second comment', email: 'manuel@gmail.com' },
-    ];
 
-    res.status(200).json( { comments: dummyCommentList });
+    let comments: Comment[];
+    const client = new MongoDbClient('comments');
+    try {
+      await client.connect();
+      const result = await client.findAll();
+      comments = await result.sort({ _id: -1 }).toArray();
+    } finally {
+      await client.close();
+    }
+
+    res.status(200).json( { comments: comments });
   } else {
     res.status(400);
   }

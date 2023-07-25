@@ -1,4 +1,12 @@
-import { Collection, Db, MongoClient, OptionalUnlessRequiredId, ServerApiVersion } from 'mongodb';
+import {
+  Collection,
+  Db,
+  Filter, FindCursor, FindOptions, InsertManyResult,
+  InsertOneResult,
+  MongoClient,
+  OptionalUnlessRequiredId,
+  ServerApiVersion, WithId
+} from 'mongodb';
 import { Document } from 'bson/src/bson';
 
 export default class MongoDbClient<T extends Document = any> {
@@ -29,11 +37,19 @@ export default class MongoDbClient<T extends Document = any> {
     await this.client.close();
   }
 
-  public async insert(item: OptionalUnlessRequiredId<T>): Promise<void> {
-    await this.collection.insertOne(item);
+  public async insert(item: OptionalUnlessRequiredId<T>): Promise<InsertOneResult<T>> {
+    return this.collection.insertOne(item);
   }
 
-  public async insertMany(items: OptionalUnlessRequiredId<T>[]): Promise<void> {
-    await this.collection.insertMany(items);
+  public async insertMany(items: OptionalUnlessRequiredId<T>[]): Promise<InsertManyResult<T>> {
+    return this.collection.insertMany(items);
+  }
+
+  public async find(filter: Filter<T>, options?: FindOptions): Promise<FindCursor<WithId<T>>> {
+    return this.collection.find(filter, options);
+  }
+
+  public async findAll(): Promise<FindCursor<WithId<T>>> {
+    return this.collection.find();
   }
 }
