@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { GetResponse, InvalidRequestResponse, PostResponse, RequestBody, Comment } from '@/models/comment';
 import MongoDbClient from '@/apis/mongodb';
-import { ObjectId } from 'mongodb';
+import { MongoServerError, ObjectId } from 'mongodb';
 
 export default async function handler(
   req: NextApiRequest,
@@ -30,7 +30,14 @@ export default async function handler(
       await client.connect();
       const result = await client.insert(newComment);
       newComment._id = result.insertedId;
-    } finally {
+    } catch (error) {
+      if (error instanceof MongoServerError) {
+        console.log(`Error worth logging: ${error}`);
+      }
+      res.status(500).json({ message: 'Error creating the record in the database.' });
+      return;
+    }
+    finally {
       await client.close();
     }
 
@@ -43,6 +50,12 @@ export default async function handler(
       await client.connect();
       const result = await client.findAll();
       comments = await result.sort({ _id: -1 }).toArray();
+    } catch (error) {
+      if (error instanceof MongoServerError) {
+        console.log(`Error worth logging: ${error}`);
+      }
+      res.status(500).json({ message: 'Error getting the data from the database.', comments: [] });
+      return;
     } finally {
       await client.close();
     }

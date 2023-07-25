@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import MongoDbClient from '@/apis/mongodb';
+import { MongoServerError } from 'mongodb';
 
 type Data = {
   message: string
@@ -25,7 +26,14 @@ export default async function handler(
     try {
       await client.connect();
       await client.insert({ email: body.email });
-    } finally {
+    } catch (error) {
+      if (error instanceof MongoServerError) {
+        console.log(`Error worth logging: ${error}`);
+      }
+      res.status(500).json({ message: 'Error with the database' });
+      return;
+    }
+    finally {
       await client.close();
     }
 
