@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { GetResponse, InvalidRequestResponse, PostResponse, RequestBody, Comment } from '@/models/comment';
 import MongoDbClient from '@/apis/mongodb';
@@ -14,7 +13,7 @@ export default async function handler(
   if (req.method === 'POST') {
     const { email, name, text } = req.body as RequestBody;
     if (!email?.includes('@') || !name?.trim() || !text?.trim()) {
-      res.status(422).json({ message: 'Invalid input '});
+      res.status(422).json({ message: 'Invalid input ' });
       return;
     }
 
@@ -36,19 +35,18 @@ export default async function handler(
       }
       res.status(500).json({ message: 'Error creating the record in the database.' });
       return;
-    }
-    finally {
+    } finally {
       await client.close();
     }
 
     res.status(201).json({ message: 'Added Comment.', comment: newComment });
-  } else if (req.method === 'GET' ) {
+  } else if (req.method === 'GET') {
 
     let comments: Comment[];
     const client = new MongoDbClient('comments');
     try {
       await client.connect();
-      const result = await client.findAll();
+      const result = await client.find({ eventId: eventId });
       comments = await result.sort({ _id: -1 }).toArray();
     } catch (error) {
       if (error instanceof MongoServerError) {
@@ -60,7 +58,7 @@ export default async function handler(
       await client.close();
     }
 
-    res.status(200).json( { comments: comments });
+    res.status(200).json({ comments: comments });
   } else {
     res.status(400);
   }
