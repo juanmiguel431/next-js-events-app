@@ -21,7 +21,7 @@ function Comments(props: any) {
 
       fetchComments();
     }
-  }, [showComments]);
+  }, [showComments, eventId]);
 
   function toggleCommentsHandler() {
     setShowComments((prevStatus) => !prevStatus);
