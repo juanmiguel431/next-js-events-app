@@ -5,9 +5,8 @@ import {
   InsertOneResult,
   MongoClient,
   OptionalUnlessRequiredId,
-  ServerApiVersion, WithId
+  ServerApiVersion, WithId, Document
 } from 'mongodb';
-import { Document } from 'bson/src/bson';
 
 export default class MongoDbClient<T extends Document = any> {
   private readonly uri = "mongodb+srv://juanmiguel431:hMasqJdJALJF4uns@cluster0.3polqrh.mongodb.net/?retryWrites=true&w=majority";
