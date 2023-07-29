@@ -25,7 +25,7 @@ steps:
       SourceFolder: 
       Contents: |
         .idea
-        Readme.md
+        README.md
         azure-pipelines.yml
 
   - task: ArchiveFiles@2
