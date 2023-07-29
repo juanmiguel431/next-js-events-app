@@ -24,6 +24,8 @@ steps:
     inputs:
       SourceFolder: 
       Contents: |
+        .git
+        .gitignore
         .idea
         README.md
         azure-pipelines.yml
