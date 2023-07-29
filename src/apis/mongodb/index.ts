@@ -9,7 +9,6 @@ import {
 } from 'mongodb';
 
 export default class MongoDbClient<T extends Document = any> {
-  private readonly dbName = 'next-events';
   private readonly collection: Collection<T>;
   private db: Db;
   private client: MongoClient;
@@ -24,7 +23,7 @@ export default class MongoDbClient<T extends Document = any> {
       }
     });
 
-    this.db = this.client.db(this.dbName);
+    this.db = this.client.db(process.env.mongodb_database);
     this.collection = this.db.collection(collection);
   }
 
