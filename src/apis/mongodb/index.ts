@@ -9,14 +9,14 @@ import {
 } from 'mongodb';
 
 export default class MongoDbClient<T extends Document = any> {
-  private readonly uri = "mongodb+srv://juanmiguel431:hMasqJdJALJF4uns@cluster0.3polqrh.mongodb.net/?retryWrites=true&w=majority";
   private readonly dbName = 'next-events';
   private readonly collection: Collection<T>;
   private db: Db;
   private client: MongoClient;
 
   constructor(collection: string) {
-    this.client = new MongoClient(this.uri, {
+    const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_cluster}.mongodb.net/?retryWrites=true&w=majority`;
+    this.client = new MongoClient(connectionString, {
       serverApi: {
         version: ServerApiVersion.v1,
         strict: true,
