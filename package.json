@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:qa": "env-cmd -f .env.qa next build",
     "start": "node server.js",
+    "start:qa": "env-cmd -f .env.qa node server.js",
     "export": "next export",
     "lint": "next lint"
   },
@@ -20,9 +22,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "swr": "^2.2.0",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.2"
+    "@types/uuid": "^9.0.2",
+    "env-cmd": "^10.1.0"
   }
 }

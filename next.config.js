@@ -5,8 +5,7 @@ const {PHASE_DEVELOPMENT_SERVER} = require('next/constants');
  * @return {import('next').NextConfig}
  */
 const nextConfig = (phase) => {
-
-    if (phase === PHASE_DEVELOPMENT_SERVER) {
+    if (process.env.NODE_ENV !== 'production') {
         return {
             reactStrictMode: true,
             env: {
