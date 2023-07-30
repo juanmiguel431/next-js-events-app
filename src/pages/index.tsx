@@ -24,7 +24,6 @@ const Home: NextPage<HomeProps> = ({ featuredEvents }) => {
 
 export default Home;
 
-
 export const getStaticProps: GetStaticProps<HomeProps> = async (context) => {
   const events = await getFeaturedEvents();
 
