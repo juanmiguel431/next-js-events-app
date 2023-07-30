@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "build:qa": "env-cmd -f .env.qa next build",
-    "start": "node server.js",
-    "start:qa": "env-cmd -f .env.qa node server.js",
+    "start": "next start",
+    "start:qa": "env-cmd -f .env.qa next start",
     "export": "next export",
     "lint": "next lint"
   },
