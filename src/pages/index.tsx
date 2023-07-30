@@ -13,7 +13,10 @@ const Home: NextPage<HomeProps> = ({ featuredEvents }) => {
   return (
     <div className="home-page">
       <NewsletterRegistration/>
-      <h2 style={{ textAlign: 'center' }}>JMPC</h2>
+      <div style={{ textAlign: 'center' }}>
+        <p><b>Environment:</b> {process.env.NODE_ENV}</p>
+        <p><b>Port:</b> {process.env.PORT}</p>
+      </div>
       <EventList items={featuredEvents}/>
     </div>
   );
