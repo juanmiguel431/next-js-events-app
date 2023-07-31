@@ -32,8 +32,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async (context) => {
   return {
     props: {
       featuredEvents: events,
-      environment: process.env.NODE_ENV,
-      port: process.env.PORT
+      environment: process.env.NODE_ENV || 'development',
+      port: process.env.PORT || '3000'
     },
     revalidate: 1800 // 30 mins
   };
