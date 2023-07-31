@@ -13,22 +13,16 @@ function NewsletterRegistration() {
 
     const email = inputRef.current?.value || '';
 
-    // fetch user input (state or refs)
-    // optional: validate input
-    // send valid data to API
-
     const requestBody: RequestBody = {
       email: email
     }
 
     try {
-      if (notificationCtx.showNotification) {
-        notificationCtx.showNotification({
-          title: 'Signing up',
-          message: 'Registering for newsletter',
-          status: 'pending'
-        });
-      }
+      notificationCtx.showNotification({
+        title: 'Signing up',
+        message: 'Registering for newsletter',
+        status: 'pending'
+      });
 
       const response = await fetch('api/newsletter', {
         method: 'POST',
@@ -39,13 +33,11 @@ function NewsletterRegistration() {
       });
 
       if (response.ok) {
-        if (notificationCtx.showNotification) {
-          notificationCtx.showNotification({
-            title: 'Success',
-            message: 'Successfully registered for newsletter',
-            status: 'success'
-          });
-        }
+        notificationCtx.showNotification({
+          title: 'Success',
+          message: 'Successfully registered for newsletter',
+          status: 'success'
+        });
       } else {
         const data = await response.json() as NewsletterData;
         notifyError(data.message);
@@ -58,13 +50,11 @@ function NewsletterRegistration() {
   }
 
   const notifyError = useCallback((errorMessage: string) => {
-    if (notificationCtx.showNotification) {
-      notificationCtx.showNotification({
-        title: 'Error',
-        message: errorMessage || 'Something went wrong!',
-        status: 'error'
-      });
-    }
+    notificationCtx.showNotification({
+      title: 'Error',
+      message: errorMessage || 'Something went wrong!',
+      status: 'error'
+    });
   }, [notificationCtx]);
 
   return (
