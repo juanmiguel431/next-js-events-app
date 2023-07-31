@@ -7,15 +7,17 @@ import NewsletterRegistration from '@/components/input/newsletter-registration';
 
 interface HomeProps {
   featuredEvents: Event[];
+  environment: 'production' | 'development' | 'test';
+  port?: string;
 }
 
-const Home: NextPage<HomeProps> = ({ featuredEvents }) => {
+const Home: NextPage<HomeProps> = ({ featuredEvents, environment, port }) => {
   return (
     <div className="home-page">
       <NewsletterRegistration/>
       <div style={{ textAlign: 'center' }}>
-        <p><b>Environment:</b> {process.env.NODE_ENV}</p>
-        <p><b>Port:</b> {process.env.PORT}</p>
+        <p><b>Environment:</b> {environment}</p>
+        <p><b>Port:</b> {port}</p>
       </div>
       <EventList items={featuredEvents}/>
     </div>
@@ -30,6 +32,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async (context) => {
   return {
     props: {
       featuredEvents: events,
+      environment: process.env.NODE_ENV,
+      port: process.env.PORT
     },
     revalidate: 1800 // 30 mins
   };

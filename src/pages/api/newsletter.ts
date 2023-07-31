@@ -1,10 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import MongoDbClient from '@/apis/mongodb';
 import { MongoServerError } from 'mongodb';
-
-type Data = {
-  message: string
-}
+import { NewsletterData } from '@/models';
 
 export interface RequestBody {
   email: string;
@@ -12,7 +9,7 @@ export interface RequestBody {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<NewsletterData>
 ) {
   if (req.method === 'POST') {
     const body = req.body as RequestBody;
