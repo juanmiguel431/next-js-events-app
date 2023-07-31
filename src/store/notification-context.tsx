@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithChildren, useState } from 'react';
+import React, { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { NotificationFooterProps } from '@/models';
 
 interface NotificationContextDef {
@@ -23,6 +23,14 @@ export const NotificationContextProvider: React.FC<PropsWithChildren> = ({ child
   const hideNotificationHandler = React.useCallback(() => {
     setActiveNotification(null);
   }, []);
+
+  useEffect(() => {
+    if (activeNotification && activeNotification.status === 'success') {
+      setTimeout(() => {
+        hideNotificationHandler();
+      }, 3000);
+    }
+  }, [activeNotification, hideNotificationHandler])
 
   return (
     <NotificationContext.Provider value={{

@@ -12,7 +12,7 @@ export interface Event {
 export interface NotificationFooterProps {
   title: string;
   message: string;
-  status: string;
+  status: 'success' | 'error' | 'pending';
 }
 
 

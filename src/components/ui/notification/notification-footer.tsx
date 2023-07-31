@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 
 import classes from './notification-footer.module.css';
 import { NotificationFooterProps } from '@/models';
-// import NotificationContext from '../../store/notification-context';
+import NotificationContext from '@/store/notification-context';
 
 const NotificationFooter: React.FC<NotificationFooterProps> = (props) => {
-  // const notificationCtx = useContext(NotificationContext);
+  const notificationCtx = useContext(NotificationContext);
 
   const { title, message, status } = props;
 
@@ -28,7 +28,11 @@ const NotificationFooter: React.FC<NotificationFooterProps> = (props) => {
   return (
     <div
       className={activeClasses}
-      // onClick={notificationCtx.hideNotification}
+      onClick={() => {
+        if (notificationCtx.hideNotification) {
+          notificationCtx.hideNotification();
+        }
+      }}
     >
       <h2>{title}</h2>
       <p>{message}</p>
