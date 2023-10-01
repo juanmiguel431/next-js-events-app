@@ -1,7 +1,9 @@
 import { Event } from '@/models';
 
+const firebaseUrl = process.env.NEXT_PUBLIC_FIREBASE_BASE_URL;
+
 export async function getAllEvents() {
-  const response = await fetch('https://next-js-course-53344-default-rtdb.firebaseio.com/events.json');
+  const response = await fetch(`${firebaseUrl}/events.json`);
   const data = await response.json();
   const events: Event[] = [];
 
